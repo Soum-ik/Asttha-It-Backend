@@ -7,19 +7,22 @@ interface reqBodyTypes {
     emailOrMobile: string;
     password: string;
     gender: 'Female' | 'Male' | 'Custom';
-    dateOfBirth: string
+    date: string
 }
 
 const signUpUser = async (req: Request, res: Response) => {
     // get req body
     try {
-        const { firstName, surname, emailOrMobile, password, gender, dateOfBirth } = req.body as unknown as reqBodyTypes
-        const findExistingUser = await User.findOne({ contact: emailOrMobile })
+        const { firstName, surname, emailOrMobile, password, gender, date: dateOfBirth } = req.body as unknown as reqBodyTypes
+        const findExistingUser = await User.findOne({ emailOrMobile });
+
         if (findExistingUser) {
-            return res.json({ message: " Your email or number are already used!", status: false, data: null })
+            return res.json({ message: " Your email or number are already used!", success: false, data: null, status: 401 })
         }
         const createUser = await User.create({ firstName, surname, emailOrMobile, password, gender, dateOfBirth })
-        return res.json({ message: "You're account create successfully", status: true, data: createUser })
+
+
+        return res.json({ message: "You're account create successfully", status: 200, success: true, data: createUser })
     } catch (error) {
         return res.json({ message: "Something want wrong", status: false, data: error })
     }

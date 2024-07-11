@@ -2,12 +2,13 @@ import express from 'express';
 import { dbConnection } from './libs/dbConnection';
 import { PORT } from './config/config';
 import router from './router/router';
+import cors from 'cors'
 
 const server = express();
 
 // Middleware to parse JSON requests
 server.use(express.json());
-
+server.use(cors())
 // Route handling
 server.use('/api/v1', router);
 

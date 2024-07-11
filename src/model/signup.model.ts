@@ -5,7 +5,7 @@ interface IUser extends Document {
     surname: string;
     emailOrMobile: string;
     password: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
     gender: 'Female' | 'Male' | 'Custom';
 }
 
@@ -36,14 +36,8 @@ const UserSchema: Schema<IUser> = new Schema<IUser>({
         minlength: 4,
     },
     dateOfBirth: {
-        type: Date,
-        required: true,
-        validate: {
-            validator: function (value: Date) {
-                return !isNaN(value.getTime());
-            },
-            message: 'Invalid Date, please select a valid date',
-        },
+        type: String,
+        required: true
     },
     gender: {
         type: String,
